@@ -26,6 +26,10 @@ Plugins are loaded during the Module Init phase. During this time, the game regi
 In order for a plugin to start, it must export the `OnPluginLoad` method. Here is a sample:
 
 ```c++
+#include <stdint.h>
+#include <Plugins.h>
+#include <PluginTypes.h>
+
 void __declspec(dllexport) OnPluginLoad()
 {
 	Infinity::Logging::Print("Sample Plugin Loaded!");
@@ -37,6 +41,11 @@ void __declspec(dllexport) OnPluginLoad()
 Custom `proto native` functionality can be implemented using the `RegisterFunction` method. Here is a sample:
 
 ```c++
+#include <stdint.h>
+#include <string.h>
+#include <Plugins.h>
+#include <PluginTypes.h>
+
 // In Enscript: proto native bool ExampleFunction(string test_str); //returns true if test_str contains "test"
 bool ExampleFunction(char* input)
 {
@@ -55,6 +64,10 @@ void __declspec(dllexport) OnPluginLoad()
 Custom path keys can be added using the `RegisterKeyPath` method. Here is a sample:
 
 ```c++
+#include <stdint.h>
+#include <Plugins.h>
+#include <PluginTypes.h>
+
 void __declspec(dllexport) OnPluginLoad()
 {
     //register $testdir: | with this we can read files in that directory with "$testdir:filename.txt"
@@ -69,6 +82,10 @@ void __declspec(dllexport) OnPluginLoad()
 Plugins can print to the GUI console with the `PrintToConsole` method. Here is a sample:
 
 ```c++
+#include <stdint.h>
+#include <Plugins.h>
+#include <PluginTypes.h>
+
 void __declspec(dllexport) OnPluginLoad()
 {
     Infinity::Enfusion::PrintToConsole("Loaded Test");
@@ -144,7 +161,7 @@ To use the devkit with Visual Studio 2019 follow these steps:
 5. Under `Properties->Linker->Input` edit `Additional Dependencies` 
 6. Add the `devkit/lib/BIDebugEngine.lib` path to the addition dependencies.
 
-With these steps, you should be able to begin creating a plugin.
+With these steps, you should be able to begin creating a plugin. Please ensure that you only build **x64** libraries. DayZ does not support x86. 
 
 ## Feature List
 
