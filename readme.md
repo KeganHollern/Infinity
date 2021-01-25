@@ -3,8 +3,6 @@
 <img src="https://kegan-screenshot.ewr1.vultrobjects.com/2021-01-24/22-05-39/infinity2.png" alt="img" style="zoom: 33%;" /> Enfusion Infinity 
 ===============
 
-[TOC]
-
 ## What is it?
 
 Infinity is a C/C++ plugin and extension framework for the Enfusion engine. The goal of Infinity is to empower modders with the ability to extend Enscript with custom native functionality.  
