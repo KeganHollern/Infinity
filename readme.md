@@ -1,6 +1,4 @@
-
-
-<img src="https://kegan-screenshot.ewr1.vultrobjects.com/2021-01-24/22-05-39/infinity2.png" alt="img" style="zoom: 33%;" /> Enfusion Infinity 
+Enfusion Infinity 
 ===============
 
 ## What is it?
