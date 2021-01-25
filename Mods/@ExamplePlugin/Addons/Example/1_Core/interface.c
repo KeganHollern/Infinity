@@ -1,0 +1,1 @@
+proto native void TestPluginFunc(); //registered by our ExamplePlugin.dll

@@ -1,0 +1,1 @@
+proto native void OnPipeOpen();
