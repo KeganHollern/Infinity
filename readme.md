@@ -92,21 +92,35 @@ void __declspec(dllexport) OnPluginLoad()
 
 ### Examples
 
-Included in this repository are several example plugins. These can be used as code samples, or even full on plugins for your server. They are not shipped in any RC & will need to be recompiled manually.
+Included in this repository is an example plugin project. This example contains several unique "plugins" that all initialize under one OnPluginLoad. These C++ files are all standalone & could be made into their own plugins. 
 
-Here are some short descriptions of the examples:
+For this plugin project, an Example mod has been provided. The mod *must* be included when using the example plugin as there are certain cases the example does not handle when the mod does not exist.
 
-#### PipePluginTest
+Here are some details about each example.
 
-This plugin enables named pipe read/write functionality for enscript.
+#### GlobalProtos
 
-#### ExamplePlugin
+The Global Protos Plugin example showcases how to make protos globally.
 
-This plugin is a simple function registration example. It is being actively developed to include custom object construction.
+#### ClassProtos
 
-#### ObjectTestPlugin
+The Class Protos Plugin example showcases how to make protos within Class objects.
 
-This was a more advanced example of function registration. Included are samples of non-native `proto` functions and the use of the `FindPattern` functionality provided for plugins.
+#### Callbacks
+
+The Callbacks Plugin example showcases how to make use of callbacks into Enscript.
+
+#### FindPattern
+
+The Find Pattern Plugin example showcases how to make use of the FindPattern capabilities of Infinity to call Enfusion Engine functions.
+
+#### HookFunction
+
+The Hook Function Plugin example showcases how to make use of the hooking capabilities of Infinity to intercept Enfusion Engine functions.
+
+#### SetValue
+
+The Set Value Plugin example showcases how to set the resultant values from custom protos. 
 
 ## Extensions
 
