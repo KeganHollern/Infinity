@@ -45,7 +45,8 @@ void Infinity::PluginSystem::LoadPlugins(void* pThis)
 			if (hLib)
 			{
 				ONPLUGINLOAD OnPluginLoad = (ONPLUGINLOAD)GetProcAddress(hLib, "?OnPluginLoad@@YAXXZ");
-				OnPluginLoad();
+				if(OnPluginLoad)
+					OnPluginLoad();
 			}
 
 		}
@@ -54,15 +55,36 @@ void Infinity::PluginSystem::LoadPlugins(void* pThis)
 
 bool Infinity::Enfusion::GetProfilePath(char* pResult)
 {
+	if (!pResult)
+	{
+		printf("(E) [Plugin] GetProfilePath: Null value passed to pResult!\n");
+		return false;
+	}
 	printf("[Plugin] GetProfilePath: Looking for profile path from plugin\n");
 	return DayZ::Engine::GetProfilePath(pResult);
 }
 bool Infinity::Enfusion::RegisterKeyPath(const char* directory, const char* key, bool allow_write)
 {
+	if (!directory)
+	{
+		printf("(E) [Plugin] RegisterKeyPath: Null pointer for directory!\n");
+		return false;
+	}
+	if (!key)
+	{
+		printf("(E) [Plugin] RegisterKeyPath: Null pointer for key!\n");
+		return false;
+	}
 
 	if (fs::exists(directory))
 	{
 		void* pFileHandler = DayZ::Engine::GetFileHandler();
+		if (!pFileHandler)
+		{
+			printf("(E) [Plugin] RegisterKeyPath: Failed to get File Handler Pointer!\n");
+			return false;
+		}
+
 		printf("[Plugin] RegisterKeyPath: File Handler @ %p\n", pFileHandler);
 
 		DayZ::Engine::RegisterPathKey(pFileHandler, directory, key, allow_write);
@@ -76,8 +98,9 @@ void Infinity::Enfusion::PrintToConsole(const char* format, ...)
 	char buffer[1024];
 	va_list argptr;
 	va_start(argptr, format);
-	vsprintf(buffer, format, argptr);
+	vsprintf_s(buffer, 1024, format, argptr);
 	va_end(argptr);
+	
 
 	std::string plugin_format = "[Plugin] ";
 	plugin_format += buffer;

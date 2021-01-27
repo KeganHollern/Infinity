@@ -18,7 +18,7 @@ void DayZ::Utils::PrintToConsole(const char* format, ...)
 		//print
 		va_list argptr;
 		va_start(argptr, format);
-		vfprintf(stdout, format, argptr);
+		vfprintf_s(stdout, format, argptr);
 		va_end(argptr);
 		return;
 	}
@@ -28,7 +28,7 @@ void DayZ::Utils::PrintToConsole(const char* format, ...)
 		char buffer[1024];
 		va_list argptr;
 		va_start(argptr, format);
-		vsprintf(buffer, format, argptr);
+		vsprintf_s(buffer, 1024, format, argptr);
 		va_end(argptr);
 
 		//print

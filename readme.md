@@ -1,3 +1,5 @@
+
+
 Enfusion Infinity 
 ===============
 
@@ -157,7 +159,7 @@ To use the devkit with Visual Studio 2019 follow these steps:
 5. Under `Properties->Linker->Input` edit `Additional Dependencies` 
 6. Add the `devkit/lib/BIDebugEngine.lib` path to the addition dependencies.
 
-With these steps, you should be able to begin creating a plugin. Please ensure that you only build **x64** libraries. DayZ does not support x86. 
+With these steps, you should be able to begin creating a plugin.
 
 ## Feature List
 

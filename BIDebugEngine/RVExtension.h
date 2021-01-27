@@ -1,6 +1,8 @@
 #ifndef RVEXTENSION
 #define RVEXTENSION
 
+#define MAX_BUFFER_SIZE 10240
+
 //custom dzextension format
 typedef char* (__stdcall* DZExtensionFunction)(char* function, char* arguments); 
 
@@ -12,9 +14,9 @@ typedef int(__stdcall* RVExtensionArgsFunction)(char* output, int outputSize, co
 typedef HMODULE;
 
 namespace RVExt {
-	HMODULE GetExtension(char* library);
+	HMODULE GetExtension(const char* library);
 	char* callExt_DZ(char* library, char* function, char* argument);
-	char* callExt_RVArgs(char* library, char* function, const char** args, int argsCount);
+	char* callExt_RVArgs(char* library, char* function, const char*** args, int argsCount);
 	char* callExt_RV(char* library, char* function);
 	char* callExt_RVVer(char* library);
 
