@@ -5,6 +5,8 @@
 #include <fstream>
 #include <iostream>
 #include <filesystem>
+#include <stdint.h>
+#include <MinHook.h>
 
 #include "types.h"
 #include "Scripts.h"
@@ -112,6 +114,13 @@ void* Infinity::Utils::FindPattern(const char* binary_ninja_pattern)
 {
 	printf("[Plugin] FindPattern: Looking for pattern in DayZ: %s\n", binary_ninja_pattern);
 	return Patterns::FindBinaryNinjaPattern(std::string(binary_ninja_pattern), GetModuleHandle(NULL), 0);
+}
+HRESULT Infinity::Utils::HookFunction(void* pAddress, void* pHookFunction, void** pOriginal)
+{
+	MH_STATUS status = (MH_STATUS)DayZ::Engine::ApplyHook(pAddress, pHookFunction, reinterpret_cast<LPVOID*>(pOriginal));
+	if (status == MH_OK)
+		return S_OK;
+	return E_FAIL;
 }
 void* Infinity::Utils::FindPattern(const char* pattern, const char* mask)
 {

@@ -19,6 +19,7 @@ namespace DayZ {
 		void* GetFileHandler();
 		void RegisterPathKey(void* pFileHandler, const char* path, const char* key, bool allow_write);
 		bool IsValidForMode(char* filepath, int32_t mode);
+		int ApplyHook(void* address, void* method, void** original);
 		int64_t CanAccessFile(void* pHandle, LPCSTR filepath);
 	}
 }

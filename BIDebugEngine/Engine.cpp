@@ -15,7 +15,6 @@
 #include "Engine.h"
 
 void* FindFunction(const char* name, std::string pattern, int offset = 0);
-MH_STATUS ApplyHook(void* address, void* method, void** original);
 
 std::string INITMODULES_BINARYNINJA_PATTERN = "48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC ? 48 8B D9 E8 ? ? ? ? 4C 8B 8B";
 std::string REGISTERGLOBALFUNCTION_BINARYNINJA_PATTERN = "48 89 6C 24 ? 48 89 74 24 ? 57 48 83 EC ? 41 8B F1 48 8B E9"; //global function registration
@@ -71,7 +70,7 @@ bool DayZ::Engine::HookInit() {
 	//--- hook initmodules so we can register custom scripts
 	void* address = FindFunction("init modules", INITMODULES_BINARYNINJA_PATTERN);
 	if (address)
-		status = ApplyHook(address, &DayZ::Scripts::InitModules, reinterpret_cast<LPVOID*>(&DayZ::Scripts::Internal::dayzInitModules));
+		status = (MH_STATUS)ApplyHook(address, &DayZ::Scripts::InitModules, reinterpret_cast<LPVOID*>(&DayZ::Scripts::Internal::dayzInitModules));
 	else
 		status = MH_STATUS::MH_ERROR_FUNCTION_NOT_FOUND;
 
@@ -84,7 +83,7 @@ bool DayZ::Engine::HookInit() {
 
 	address = FindFunction("file handler can access file", FILEHANDLER_CANACCESSFILE_BINARYNINJA_PATTERN);
 	if (address)
-		status = ApplyHook(address, &DayZ::Engine::CanAccessFile, reinterpret_cast<LPVOID*>(&DayZ::Engine::Internal::dayzCanAccessFile));
+		status = (MH_STATUS)ApplyHook(address, &DayZ::Engine::CanAccessFile, reinterpret_cast<LPVOID*>(&DayZ::Engine::Internal::dayzCanAccessFile));
 	else
 		status = MH_STATUS::MH_ERROR_FUNCTION_NOT_FOUND;
 
@@ -99,7 +98,7 @@ bool DayZ::Engine::HookInit() {
 	//--- hook IsValidForMode so we can enable write to custom directories
 	address = FindFunction("is valid for mode", ISVALIDFORMODE_BINARYNINJA_PATTERN);
 	if(address)
-		status = ApplyHook(address, &DayZ::Engine::IsValidForMode, reinterpret_cast<LPVOID*>(&DayZ::Engine::Internal::dayzIsValidForMode));
+		status = (MH_STATUS)ApplyHook(address, &DayZ::Engine::IsValidForMode, reinterpret_cast<LPVOID*>(&DayZ::Engine::Internal::dayzIsValidForMode));
 	else
 		status = MH_STATUS::MH_ERROR_FUNCTION_NOT_FOUND;
 
@@ -197,7 +196,7 @@ bool DayZ::Engine::IsValidForMode(char* filepath, int32_t mode)
 	return Internal::dayzIsValidForMode(filepath, new_mode);
 }
 
-MH_STATUS ApplyHook(void* address, void* method, void** original)
+int DayZ::Engine::ApplyHook(void* address, void* method, void** original)
 {
 	MH_STATUS status = MH_CreateHook(address, method, original);
 	if (status == MH_OK)

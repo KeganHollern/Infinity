@@ -28,6 +28,7 @@ namespace Infinity {
 	namespace Utils {
 		_CLINKAGE void* FindPattern(const char* binary_ninja_pattern);
 		_CLINKAGE void* FindPattern(const char* pattern, const char* mask);
+		_CLINKAGE HRESULT HookFunction(void* pAddress, void* pHookFunction, void** pOriginal);
 	}
 	//enfusion specific functionality
 	namespace Enfusion {
