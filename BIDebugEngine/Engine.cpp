@@ -27,12 +27,20 @@ std::string GLOBAL_FILEHANDLER_BINARYNINJA_PATTERN = "48 89 0D ? ? ? ? 4C 8D 0D"
 std::string REGISTERPATHKEY_BINARYNINJA_PATTERN = "4C 89 4C 24 ? 55 53 56 41 54";
 std::string ISVALIDFORMODE_BINARYNINJA_PATTERN = "48 89 5C 24 ? 48 89 4C 24 ? 57 48 83 EC ? 8B FA"; //first method called in OpenFile script func
 std::string FILEHANDLER_CANACCESSFILE_BINARYNINJA_PATTERN = "48 83 EC ? 48 8B CA FF 15";
+std::string ALLOCENFMEMORY_BINARYNINJA_PATTERN = "48 89 5C 24 ? 57 48 83 EC ? 80 3D 00 BA A7 00 00";
+std::string SETARGUMENTVALUE_BINARYNINJA_PATTERN = "48 83 EC ? 48 8B 05 ? ? ? ? 48 85 C9";
+std::string ISARGUMENTNULL_BINARYNINJA_PATTERN = "48 8B 05 ? ? ? ? 48 3B 88 58 02 00 00";
+std::string GETARGUMENTINFO_BINARYNINJA_PATTERN = "40 53 48 83 EC ? 48 8B 05 ? ? ? ? 48 8B D9 4C 8B 88";
 
 GETPROFILEPATH DayZ::Engine::Internal::dayzGetProfilePath;
 void** DayZ::Engine::Internal::dayzFileHandlerPtr;
 REGISTERPATHKEY DayZ::Engine::Internal::dayzRegisterPathKey;
 ISVALIDFORMODE DayZ::Engine::Internal::dayzIsValidForMode;
 CANACCESSFILE DayZ::Engine::Internal::dayzCanAccessFile;
+ALLOCENFMEMORY DayZ::Engine::Internal::dayzAllocEnfMemory;
+SETSTRINGARGUMENTVALUE DayZ::Engine::Internal::dayzSetStringArgumentValue;
+ISARGUMENTNULL DayZ::Engine::Internal::dayzIsArgumentNull;
+GETARGUMENTINFO DayZ::Engine::Internal::dayzGetArgumentInfo;
 std::vector<std::string> DayZ::Engine::Internal::allow_write_path_keys;
 
 bool DayZ::Engine::HookInit() {
@@ -42,6 +50,9 @@ bool DayZ::Engine::HookInit() {
 	DayZ::Scripts::Internal::dayzRegisterClassFunction = (ADDCLASSFUNCTION)FindFunction("class register", REGISTERFUNCTION_BINARYNINJA_PATTERN);
 	DayZ::Scripts::Internal::dayzRunFunction = (RUNFUNCTIONONNEWTHREAD)FindFunction("run on new thread", RUNFUNCTIONONNEWTHREAD_BINARYNINJA_PATTERN);
 
+	DayZ::Engine::Internal::dayzGetArgumentInfo = (GETARGUMENTINFO)FindFunction("get argument info", GETARGUMENTINFO_BINARYNINJA_PATTERN);
+	DayZ::Engine::Internal::dayzIsArgumentNull = (ISARGUMENTNULL)FindFunction("is argument null", ISARGUMENTNULL_BINARYNINJA_PATTERN);
+	DayZ::Engine::Internal::dayzSetStringArgumentValue = (SETSTRINGARGUMENTVALUE)FindFunction("set string argument", SETARGUMENTVALUE_BINARYNINJA_PATTERN);
 	DayZ::Engine::Internal::dayzRegisterPathKey = (REGISTERPATHKEY)FindFunction("register path key", REGISTERPATHKEY_BINARYNINJA_PATTERN);
 	DayZ::Engine::Internal::dayzGetProfilePath = (GETPROFILEPATH)FindFunction("get profile path", GETPROFILEPATH_BINARYNINJA_PATTERN);
 	//-- this global variable needs to be pulled from a relative operation
@@ -134,6 +145,15 @@ bool DayZ::Engine::GetProfilePath(char* pResult)
 	return Internal::dayzGetProfilePath(pResult);
 }
 
+void* DayZ::Engine::MemAlloc(SIZE_T size)
+{
+	if (!Internal::dayzAllocEnfMemory)
+	{
+		return malloc(size); //yeah this will almost always cause a crash when Enforce tries to release the object but it's better than nothing
+	}
+	return (void*)Internal::dayzAllocEnfMemory(size);
+}
+
 void* DayZ::Engine::GetFileHandler()
 {
 	if (!Internal::dayzFileHandlerPtr)
@@ -203,8 +223,46 @@ int DayZ::Engine::ApplyHook(void* address, void* method, void** original)
 	{
 		status = MH_EnableHook(address);
 	}
+	printf("(E) ApplyHook: Failed to apply hook!\n");
 	return status;
 }
+
+bool DayZ::Engine::IsArgumentNull(void** pArgument)
+{
+	if (!DayZ::Engine::Internal::dayzIsArgumentNull)
+	{
+		printf("(E) IsArgumentNull: Could not find internal method!\n");
+		return true;
+	}
+	return DayZ::Engine::Internal::dayzIsArgumentNull(pArgument);
+}
+void DayZ::Engine::SetStringArgumentValue(char* new_value, void* pArgumentInfo, char** pArgument, bool unk_bool)
+{
+	if (!DayZ::Engine::Internal::dayzSetStringArgumentValue)
+	{
+		printf("(E) SetStringArgumentValue: Could not find internal method!\n");
+		return;
+	}
+	DayZ::Engine::Internal::dayzSetStringArgumentValue(new_value, pArgumentInfo, pArgument, unk_bool);
+}
+void* DayZ::Engine::GetArgumentInfo(void* pContext, int iArgIndex)
+{
+	if (!DayZ::Engine::Internal::dayzGetArgumentInfo)
+	{
+		printf("(E) GetArgumentInfo: Could not find internal method!\n");
+		return NULL;
+	}
+	if (!pContext)
+	{
+		printf("(E) GetArgumentInfo: Function Context is NULL!\n");
+		return NULL;
+	}
+	return DayZ::Engine::Internal::dayzGetArgumentInfo(pContext, iArgIndex);
+}
+
+
+
+
 void* FindFunction(const char* name, std::string pattern, int offset)
 {
 	if (pattern == "")
