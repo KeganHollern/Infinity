@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <filesystem>
 #include <fstream>
+#include <iostream>
 #include <Plugins.h>
 #include <PluginTypes.h>
 
@@ -45,19 +46,21 @@ void*** LoadSpecialModule(Framework::ScriptModule* pModule)
 	msgof << "This is a test message" << std::endl;
 	msgof.close();
 
+	std::cout << "Msg File: " << message_file << std::endl;
+
 	//write code file to disk
 	std::ofstream codeof(code_file, std::ios::trunc);
 	codeof << \
 		"void test_func() { \
-			PrintToDayZConsole(\"TESTING SPECIAL MODULE FROM $temp!\"); \
-			FileHandle file_handle = OpenFile(\"$temp:test_msg.txt\", FileMode.READ); \
+			PrintToDayZConsole(\"TESTING SPECIAL MODULE FROM $sptmp!\"); \
+			FileHandle file_handle = OpenFile(\"$sptmp:test_msg.txt\", FileMode.READ); \
 			string line_content; \
 			while ( FGets( file_handle,  line_content ) > 0 ) { \
 				 PrintToDayZConsole(line_content); \
 			} \
 			CloseFile(file_handle); \
 			PrintToDayZConsole(\"DONE READ!\"); \
-			file_handle = OpenFile(\"$temp:test_msg.txt\", FileMode.APPEND); \
+			file_handle = OpenFile(\"$sptmp:test_msg.txt\", FileMode.APPEND); \
 			if(file_handle) { \
 				FPrintln(file_handle,\"New Line!\"); \
 				CloseFile(file_handle); \
@@ -68,9 +71,11 @@ void*** LoadSpecialModule(Framework::ScriptModule* pModule)
 		}";
 	codeof.close();
 
+	std::cout << "Code File: " << code_file << std::endl;
+
 	Logging::Print("Loading Special Module!");
 
-	return dayzLoadScript(pModule, (char*)"$temp:test.c"); //call the LoadScript function from ScriptModule class in enscript
+	return dayzLoadScript(pModule, (char*)"$sptmp:test.c"); //call the LoadScript function from ScriptModule class in enscript
 }
 
 
@@ -82,8 +87,13 @@ void FindPatternPluginInit()
 	Infinity::Enfusion::Enscript::RegisterFunction("LoadSpecialModule", &LoadSpecialModule); 
 	Infinity::Enfusion::Enscript::RegisterFunction("PrintToDayZConsole", &PrintToDayZConsole);
 
+	char* pTemp = new CHAR[MAX_PATH];
+	strcpy_s(pTemp, MAX_PATH, fs::temp_directory_path().parent_path().string().c_str());
+
+	printf("Registering keypath to %s", pTemp);
+
 	//register temp directory as $temp in engine
-	if (Infinity::Enfusion::RegisterKeyPath(fs::temp_directory_path().string().c_str(), "temp", true))//should allow read & write from "$dab:<file_name>"
+	if (Infinity::Enfusion::RegisterKeyPath(pTemp, "sptmp", true))//should allow read & write from "$dab:<file_name>"
 		Logging::Print("Registered Key Path!");
 	else
 		Logging::Error("Failed to register key path!");

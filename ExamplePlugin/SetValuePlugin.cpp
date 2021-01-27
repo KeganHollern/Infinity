@@ -27,6 +27,8 @@ void SetABCs(Enscript::FunctionContext* pContext, void* pUnk)
 	if (!pContext->GetArgument(2))
 		return;
 
+	Infinity::Logging::Print("Setting ABCs #1");
+
 	pContext->GetArgument(0)->Value = CreateEnforceString("a");
 	pContext->GetArgument(1)->Value = CreateEnforceString("b");
 	pContext->GetArgument(2)->Value = CreateEnforceString("c");
@@ -42,10 +44,11 @@ void SetABCs2(Enscript::FunctionContext* pContext, void* pUnk)
 	if (!pContext->GetArgument(2))
 		return;
 	
+	Infinity::Logging::Print("Setting ABCs #2");
 
-	Infinity::Enfusion::Enscript::SetStringArgumentValue(pContext, 0, (char*)"a", false);
-	Infinity::Enfusion::Enscript::SetStringArgumentValue(pContext, 1, (char*)"b", false);
-	Infinity::Enfusion::Enscript::SetStringArgumentValue(pContext, 2, (char*)"c", false);
+	Infinity::Enfusion::Enscript::SetStringArgumentValue(pContext, 0, CreateEnforceString("a"), true);
+	Infinity::Enfusion::Enscript::SetStringArgumentValue(pContext, 1, CreateEnforceString("b"), true);
+	Infinity::Enfusion::Enscript::SetStringArgumentValue(pContext, 2, CreateEnforceString("c"), true);
 }
 
 /*
@@ -56,6 +59,8 @@ char* CreateEnforceString(const char* str)
 {
 	size_t size = strlen(str) + 1;
 	char* safe_ptr = (char*)Infinity::Enfusion::MemAlloc(size);
+	if (!safe_ptr)
+		return NULL;
 	strcpy_s(safe_ptr, size, str);
 	return safe_ptr;
 }
