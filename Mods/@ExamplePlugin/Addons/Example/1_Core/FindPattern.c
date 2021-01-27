@@ -1,5 +1,5 @@
 proto native void PrintToDayZConsole(string value);
-proto native ScriptModule LoadSpecialModule(ScriptModule parent);
+proto ScriptModule LoadSpecialModule(ScriptModule parent);
 
 
 void TestFindPattern(ScriptModule parentModule)

@@ -223,7 +223,9 @@ int DayZ::Engine::ApplyHook(void* address, void* method, void** original)
 	{
 		status = MH_EnableHook(address);
 	}
-	printf("(E) ApplyHook: Failed to apply hook!\n");
+	else
+		printf("(E) ApplyHook: Failed to apply hook!\n");
+
 	return status;
 }
 

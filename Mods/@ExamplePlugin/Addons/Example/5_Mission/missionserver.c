@@ -8,10 +8,9 @@ modded class MissionServer
 		TestGlobalProtos();
 		TestClassProtos();
 		TestCallbacks();
-		TestFindPattern();
+		TestFindPattern(GetGame().GetMission().MissionScript);
 		TestHookFunction();
 		TestSetValue();
-		
 		super.OnInit();
 	}
 }

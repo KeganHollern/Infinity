@@ -1,5 +1,5 @@
-proto native void SetABCs(out string a, out string b, out string c);
-proto native void SetABCs2(out string a, out string b, out string c);
+proto void SetABCs(out string a, out string b, out string c);
+proto void SetABCs2(out string a, out string b, out string c);
 
 void TestSetValue()
 {
