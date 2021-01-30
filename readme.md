@@ -17,31 +17,6 @@ Plugins are the main feature of Infinity. With plugins, you can load your own na
 
 Plugins go into the `Plugins` folder in the DayZ Server. These libraries are automatically loaded on server start. 
 
-## Infinity Server
-
-The Infinity Server executable is provided as an alternate to loading the Infinity BIDebugEngine module. Several community members have suggested that because of Infinity, BI may patch the Debug Engine LoadLibrary call. The Infinity Server is a fallback in the event that this does happen.
-
-The Infinity Server acts as an alternative to DayZServer_x64.exe. In your startup script, replace `DayZServer_x64.exe` with `InfinityServer.exe -iblk`. This will completely mimic the DayZ Server startup, while also loading `BIDebugEngine.dll`. 
-
-This Server Executable supports loading a custom library using the startup parameter `-ilib=[CustomLibrary].dll`.
-
-You can target a different DayZ Server executable by specifying the startup parameter `-isvr=[CustomDayZServer].exe`. 
-
-All extra arguments will be passed onto the DayZ Server. 
-
-### Example Startup Script
-
-This startup script will load the `BIDebugEngine2.dll`into DayZ Server on startup.
-
-```batch
-@echo OFF
-set serverpath=D:\SteamLibrary\steamapps\common\DayZServer
-
-echo Starting Server...
-InfinityServer -iblk -isvr=DayZServer_x64.exe -ilib=BIDebugEngine2.dll -rvdbg "-config=%serverpath%\serverDZ.cfg" -port=2302 "-profiles=%serverpath%\profiles" -doLogs "-mod=G:\Bohemia Scripting\DayZ\Modding\Infinity\Mods\@ExamplePlugin"
-pause
-```
-
 ### Technical Details
 
 Plugins are loaded during the Module Init phase. During this time, the game registers it's own proto natives. Plugins are loaded prior to the game loading it's own proto natives, and therefore *should* be able to overwrite them if necessary (though untested). 
@@ -159,11 +134,38 @@ The limitations of callExtension have been kept in order to accurately reflect t
 
 Provided in the Extensions directory is the HTTP-GET Example extension. This is an Arma 3 extension that enables GET requests. This extension showcases the implementation of callExtension, and the support for .NET extensions.
 
+## Infinity Server
+
+The Infinity Server executable is provided as an alternate to loading the Infinity BIDebugEngine module. Several community members have suggested that because of Infinity, BI may patch the Debug Engine LoadLibrary call. The Infinity Server is a fallback in the event that this does happen.
+
+The Infinity Server acts as an alternative to DayZServer_x64.exe. In your startup script, replace `DayZServer_x64.exe` with `InfinityServer.exe -iblk`. This will completely mimic the DayZ Server startup, while also loading `BIDebugEngine.dll`. 
+
+This Server Executable supports loading a custom library using the startup parameter `-ilib=[CustomLibrary].dll`.
+
+You can target a different DayZ Server executable by specifying the startup parameter `-isvr=[CustomDayZServer].exe`. 
+
+All extra arguments will be passed onto the DayZ Server. 
+
+### Example Startup Script
+
+This startup script will load the `BIDebugEngine2.dll`into DayZ Server on startup.
+
+```batch
+@echo OFF
+set serverpath=D:\SteamLibrary\steamapps\common\DayZServer
+
+echo Starting Server...
+InfinityServer -iblk -isvr=DayZServer_x64.exe -ilib=BIDebugEngine2.dll -rvdbg "-config=%serverpath%\serverDZ.cfg" -port=2302 "-profiles=%serverpath%\profiles" -doLogs "-mod=G:\Bohemia Scripting\DayZ\Modding\Infinity\Mods\@ExamplePlugin"
+pause
+```
+
+
+
 ## Installation
 
 Infinity is a server-only mod. This means you can only add plugins, and therefore implement `proto` methods, on the server. By that, install takes place on the server.
 
-### Server Install
+### Runtime Install
 
 The following steps must be complete prior to installing Infinity
 
@@ -199,6 +201,24 @@ To use the devkit with Visual Studio 2019 follow these steps:
 6. Add the `devkit/lib/BIDebugEngine.lib` path to the addition dependencies.
 
 With these steps, you should be able to begin creating a plugin.
+
+### Infinity Server Install
+
+The following steps must be complete prior to installing Infinity Server
+
+1. Install your DayZ Server 
+2. Run your DayZ Server once to create the profile.
+
+To install Infinity Server, follow these steps:
+
+1. Download the latest runtime RC. 
+2. Create a `Plugins` folder in your *server root* directory.
+3. Extract the runtime & place `BIDebugEngine.dll` in the *server root*.
+4. Rename `BIDebugEngine.dll` to `Infinity.dll` *or any other name*.
+5. Extract `InfinityServer.exe` to your *server root*.
+6. Edit your startup script. Replace `DayZServer_x64.exe` with `InfinityServer.exe -iblk -ilib=Infinity.dll`.
+
+With these steps, your server should run as expected, but will load `Infinity.dll` for Infinity support.
 
 ## Feature List
 
