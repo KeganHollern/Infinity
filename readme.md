@@ -17,6 +17,31 @@ Plugins are the main feature of Infinity. With plugins, you can load your own na
 
 Plugins go into the `Plugins` folder in the DayZ Server. These libraries are automatically loaded on server start. 
 
+## Infinity Server
+
+The Infinity Server executable is provided as an alternate to loading the Infinity BIDebugEngine module. Several community members have suggested that because of Infinity, BI may patch the Debug Engine LoadLibrary call. The Infinity Server is a fallback in the event that this does happen.
+
+The Infinity Server acts as an alternative to DayZServer_x64.exe. In your startup script, replace `DayZServer_x64.exe` with `InfinityServer.exe -iblk`. This will completely mimic the DayZ Server startup, while also loading `BIDebugEngine.dll`. 
+
+This Server Executable supports loading a custom library using the startup parameter `-ilib=[CustomLibrary].dll`.
+
+You can target a different DayZ Server executable by specifying the startup parameter `-isvr=[CustomDayZServer].exe`. 
+
+All extra arguments will be passed onto the DayZ Server. 
+
+### Example Startup Script
+
+This startup script will load the `BIDebugEngine2.dll`into DayZ Server on startup.
+
+```batch
+@echo OFF
+set serverpath=D:\SteamLibrary\steamapps\common\DayZServer
+
+echo Starting Server...
+InfinityServer -iblk -isvr=DayZServer_x64.exe -ilib=BIDebugEngine2.dll -rvdbg "-config=%serverpath%\serverDZ.cfg" -port=2302 "-profiles=%serverpath%\profiles" -doLogs "-mod=G:\Bohemia Scripting\DayZ\Modding\Infinity\Mods\@ExamplePlugin"
+pause
+```
+
 ### Technical Details
 
 Plugins are loaded during the Module Init phase. During this time, the game registers it's own proto natives. Plugins are loaded prior to the game loading it's own proto natives, and therefore *should* be able to overwrite them if necessary (though untested). 
