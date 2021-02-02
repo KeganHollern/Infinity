@@ -107,9 +107,8 @@ int main(int argc, char** argv)
     std::cout << "Starting Infinity DayZ!" << std::endl;
     if (CreateProcessA(server_full_path.string().c_str(), (char*)cmdline.c_str(), NULL, NULL, TRUE, DETACHED_PROCESS, NULL, NULL, &info, &processInfo))
     {
-        //2.  elevate process handle if necessary
-        //processInfo.hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, processInfo.dwProcessId);
         std::string lib_path = library_full_path.string().c_str();
+
         //2. allocate space in DayZServer for our library string
         void* pRemoteAddr = VirtualAllocEx(processInfo.hProcess, NULL, lib_path.length() + 1, MEM_RESERVE | MEM_COMMIT, PAGE_EXECUTE_READWRITE);
         if (!pRemoteAddr)

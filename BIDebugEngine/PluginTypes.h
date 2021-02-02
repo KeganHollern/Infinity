@@ -11,6 +11,7 @@ namespace Infinity {
 			{
 				void* Value;
 			} NativeArgument, * PNativeArgument;
+
 			typedef struct Arguments
 			{
 				PNativeArgument List[8];
@@ -26,6 +27,10 @@ namespace Infinity {
 					return Arguments->List[idx];
 				}
 			};
+			typedef struct FunctionResult {
+				PNativeArgument Result;
+			} FunctionResult, *PFunctionResult;
+
 
 			namespace Framework {
 

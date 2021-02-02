@@ -1,34 +1,39 @@
-proto void SetABCs(out string a, out string b, out string c);
-proto void SetABCs2(out string a, out string b, out string c);
+proto void SetStringValue(out string result, string new_value, bool use_memcpy = false);
+proto string GetValueBack(string val);
+proto bool CreateGuid(out string guid);
 
 void TestSetValue()
 {
-	Print("Testing Set 2!");
-	scope_2();
-	Print("Released Successfully 2!");
-	
-	//Print("Testing Set!");
-	//scope_1();
-	//Print("Released Successfully!");
-	
+	Print("Test 1");
+	working_scope();
+	Print("Test 2");
+	unsafe_memcpy();
+	Print("Test 3");
+	test_newstr();
+	Print("Tests Compelte");
 }
-void scope_1()
+void working_scope()
 {
-	string a1;
-	string b1;
-	string c1;
-	SetABCs(a1,b1,c1);
-	Print(a1);
-	Print(b1);
-	Print(c1);
+	string a;
+	string b = "value!";
+	string c = GetValueBack(b);
+	SetStringValue(a, b);
+	Print(a);
+	Print(c);
 }
-void scope_2()
+void unsafe_memcpy()
 {
-	string a2;
-	string b2;
-	string c2;
-	SetABCs2(a2,b2,c2);
-	Print(a2);
-	Print(b2);
-	Print(c2);
+	string a;
+	string b = "value!";
+	SetStringValue(a, b, true);
+	Print(a);
+}
+void test_newstr()
+{
+	string guid;
+	bool worked = CreateGuid(guid);
+	if(!worked)
+		Print("Failed to create guid!");
+	else
+		Print(guid);
 }

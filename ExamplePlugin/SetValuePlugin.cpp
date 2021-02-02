@@ -4,71 +4,89 @@
 #include <stdint.h>
 #include <Plugins.h>
 #include <PluginTypes.h>
+#include <combaseapi.h>
+#include <string>
 
 #include "ExamplePlugin.h"
 
 namespace Framework = Infinity::Enfusion::Enscript::Framework;
 namespace Enscript = Infinity::Enfusion::Enscript;
 
-char* CreateEnforceString(const char* str);
 
-
-//proto native void SetABCs(out string a, out string b, out string c);
-//proto native void SetABCs2(out string a, out string b, out string c);
-
-void SetABCs(Enscript::FunctionContext* pContext, void* pUnk)
+//proto void SetStringValue(out string result, string new_value, bool use_memcpy = false);
+void SetStringValue(Enscript::FunctionContext* pContext, Enscript::FunctionResult* pResult)
 {
-	if (!pContext)
-		return;
-	if (!pContext->GetArgument(0))
-		return;
-	if (!pContext->GetArgument(1))
-		return;
-	if (!pContext->GetArgument(2))
-		return;
+	if (!pContext) return;
+	if (!pContext->GetArgument(0)) return;
+	if (!pContext->GetArgument(1)) return;
+	if (!pContext->GetArgument(2)) return;
 
-	Infinity::Logging::Print("Setting ABCs #1");
-
-	pContext->GetArgument(0)->Value = CreateEnforceString("a");
-	pContext->GetArgument(1)->Value = CreateEnforceString("b");
-	pContext->GetArgument(2)->Value = CreateEnforceString("c");
-}
-void SetABCs2(Enscript::FunctionContext* pContext, void* pUnk)
-{
-	if (!pContext)
-		return;
-	if (!pContext->GetArgument(0))
-		return;
-	if (!pContext->GetArgument(1))
-		return;
-	if (!pContext->GetArgument(2))
-		return;
-	
-	Infinity::Logging::Print("Setting ABCs #2");
-
-	Infinity::Enfusion::Enscript::SetStringArgumentValue(pContext, 0, CreateEnforceString("a"), true);
-	Infinity::Enfusion::Enscript::SetStringArgumentValue(pContext, 1, CreateEnforceString("b"), true);
-	Infinity::Enfusion::Enscript::SetStringArgumentValue(pContext, 2, CreateEnforceString("c"), true);
+	//this does not crash
+	if (pContext->GetArgument(2)->Value)
+	{
+		const char* input_value = (const char*)pContext->GetArgument(1)->Value;
+		size_t length = strlen(input_value);
+		memcpy(pContext->GetArgument(0)->Value, input_value, length);
+		*((char*)pContext->GetArgument(0)->Value + length) = 0; //gotta add a string terminator :)
+	}
+	else
+		pContext->GetArgument(0)->Value = pContext->GetArgument(1)->Value;
 }
 
-/*
-When setting a value in enforce, we need to allocate space for it using enfusion.
-this method takes a string & allocates just enough space for it to sit in
-*/
-char* CreateEnforceString(const char* str)
+//proto string GetValueBack(string val);
+Enscript::NativeArgument* GetValueBack(Enscript::FunctionContext* pContext, Enscript::FunctionResult* pResult)
 {
-	size_t size = strlen(str) + 1;
-	char* safe_ptr = (char*)Infinity::Enfusion::MemAlloc(size);
-	if (!safe_ptr)
-		return NULL;
-	strcpy_s(safe_ptr, size, str);
-	return safe_ptr;
+	if (!pContext) return pResult->Result;
+	if (!pContext->GetArgument(0)) return pResult->Result;
+
+	const char* input_value = (const char*)pContext->GetArgument(0)->Value;
+	size_t length = strlen(input_value);
+
+	memcpy(pResult->Result->Value, input_value, length);
+	*((char*)pResult->Result->Value + length) = 0; //gotta add a string terminator :)
+	return pResult->Result;
 }
+
+
+//proto bool CreateGuid(out string guid);
+Enscript::NativeArgument* CreateGuid(Enscript::FunctionContext* pContext, Enscript::FunctionResult* pResult)
+{
+	*((bool*)pResult->Result) = false; //default the value to false
+
+	if (!pContext) return pResult->Result;
+	if (!pContext->GetArgument(0)) return pResult->Result;
+
+	GUID guid;
+	HRESULT hr = CoCreateGuid(&guid);
+	if (hr == S_OK)
+	{
+		wchar_t* guidString;
+		hr = StringFromCLSID(guid, &guidString);
+		if (hr == S_OK)
+		{
+			//convert wide string to string
+			std::wstring wstr = guidString;
+			int size_needed = WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), NULL, 0, NULL, NULL);
+			std::string str(size_needed, 0);
+			WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), &str[0], size_needed, NULL, NULL);
+
+			//--- set value in DayZ
+			memcpy(pContext->GetArgument(0)->Value, str.c_str(), str.length());
+			*((char*)pContext->GetArgument(0)->Value + str.length()) = 0; //gotta add a string terminator :)
+			*((bool*)pResult->Result) = true;
+		}
+	}
+
+	Infinity::Logging::Print("Returning Result!");
+	return pResult->Result;
+}
+
 
 /* if this was a standalone plugin the following function would be | void __declspec(dllexport) OnPluginLoad() */
 void SetValuePluginInit()
 {
-	Infinity::Enfusion::Enscript::RegisterFunction("SetABCs", &SetABCs);
-	Infinity::Enfusion::Enscript::RegisterFunction("SetABCs2", &SetABCs2);
+	Infinity::Enfusion::Enscript::RegisterFunction("SetStringValue", &SetStringValue);
+	Infinity::Enfusion::Enscript::RegisterFunction("GetValueBack", &GetValueBack);
+	Infinity::Enfusion::Enscript::RegisterFunction("CreateGuid", &CreateGuid);
 	Infinity::Logging::Print("SetValue Plugin Loaded.");
 }
