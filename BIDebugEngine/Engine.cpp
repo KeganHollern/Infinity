@@ -26,7 +26,6 @@ std::string GETPROFILEPATH_BINARYNINJA_PATTERN = "48 89 5C 24 ? 57 48 83 EC ? 48
 std::string GLOBAL_FILEHANDLER_BINARYNINJA_PATTERN = "48 89 0D ? ? ? ? 4C 8D 0D";
 std::string REGISTERPATHKEY_BINARYNINJA_PATTERN = "4C 89 4C 24 ? 55 53 56 41 54";
 std::string ISVALIDFORMODE_BINARYNINJA_PATTERN = "48 89 5C 24 ? 48 89 4C 24 ? 57 48 83 EC ? 8B FA"; //first method called in OpenFile script func
-std::string FILEHANDLER_CANACCESSFILE_BINARYNINJA_PATTERN = "48 83 EC ? 48 8B CA FF 15";
 std::string ALLOCENFMEMORY_BINARYNINJA_PATTERN = "48 89 5C 24 ? 57 48 83 EC ? 80 3D 00 BA A7 00 00";
 std::string SETARGUMENTVALUE_BINARYNINJA_PATTERN = "48 83 EC ? 48 8B 05 ? ? ? ? 48 85 C9";
 std::string ISARGUMENTNULL_BINARYNINJA_PATTERN = "48 8B 05 ? ? ? ? 48 3B 88 58 02 00 00";
@@ -36,7 +35,6 @@ GETPROFILEPATH DayZ::Engine::Internal::dayzGetProfilePath;
 void** DayZ::Engine::Internal::dayzFileHandlerPtr;
 REGISTERPATHKEY DayZ::Engine::Internal::dayzRegisterPathKey;
 ISVALIDFORMODE DayZ::Engine::Internal::dayzIsValidForMode;
-CANACCESSFILE DayZ::Engine::Internal::dayzCanAccessFile;
 ALLOCENFMEMORY DayZ::Engine::Internal::dayzAllocEnfMemory;
 SETSTRINGARGUMENTVALUE DayZ::Engine::Internal::dayzSetStringArgumentValue;
 ISARGUMENTNULL DayZ::Engine::Internal::dayzIsArgumentNull;
@@ -92,20 +90,7 @@ bool DayZ::Engine::HookInit() {
 	}
 	printf("HookInit: Successfully hooked InitModules @ %p\n", address);
 
-	address = FindFunction("file handler can access file", FILEHANDLER_CANACCESSFILE_BINARYNINJA_PATTERN);
-	if (address)
-		status = (MH_STATUS)ApplyHook(address, &DayZ::Engine::CanAccessFile, reinterpret_cast<LPVOID*>(&DayZ::Engine::Internal::dayzCanAccessFile));
-	else
-		status = MH_STATUS::MH_ERROR_FUNCTION_NOT_FOUND;
-
-	if (status != MH_OK)
-	{
-		printf("(E) HookInit: Failed to create CanAccessFile hook\n");
-	}
-	else
-	{
-		printf("HookInit: Successfully hooked CanAccessFile @ %p\n", address);
-	}
+	
 	//--- hook IsValidForMode so we can enable write to custom directories
 	address = FindFunction("is valid for mode", ISVALIDFORMODE_BINARYNINJA_PATTERN);
 	if(address)
@@ -126,14 +111,6 @@ bool DayZ::Engine::HookInit() {
 	return true;
 }
 
-int64_t DayZ::Engine::CanAccessFile(void* pHandle, LPCSTR filepath)
-{
-	if (!Internal::dayzCanAccessFile)
-		return -1;
-
-	int64_t valid_result = Internal::dayzCanAccessFile(pHandle, filepath);	
-	return valid_result;
-}
 
 bool DayZ::Engine::GetProfilePath(char* pResult)
 {

@@ -20,7 +20,6 @@ typedef int64_t* (__fastcall* RUNFUNCTIONONNEWTHREAD)(void* pObject, int64_t* pR
 typedef uint64_t (__fastcall* GETPROFILEPATH)(char* pResult);
 typedef bool (__fastcall* REGISTERPATHKEY)(void* pFileHandler, char* path, int32_t flag, char* key, int32_t flag1, int64_t flag2);
 typedef bool (__fastcall* ISVALIDFORMODE)(char* filepath, int32_t mode);
-typedef int64_t(__fastcall* CANACCESSFILE)(void* pFileHandler, LPCSTR filepath);
 typedef int64_t(__fastcall* ALLOCENFMEMORY)(SIZE_T arg1);
 typedef void* (__fastcall* SETSTRINGARGUMENTVALUE)(char* new_value, void* pArgInfo, char** pArgument, bool unk_bool);
 typedef bool (__fastcall* ISARGUMENTNULL)(void** pArgument);
