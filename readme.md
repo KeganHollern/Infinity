@@ -239,13 +239,13 @@ With these steps, your server should run as expected, but will load `Infinity.dl
 - [x] Plugins can get the profile path
 - [x] Enable FindPattern for plugins, so they can add more advanced functionality.
 - [x] Framework for easily handling Managed classes from Enscript
-- [ ] Plugins can construct custom `class` definitions natively
-- [ ] Plugins can register non-static class `proto native` definitions
+- [x] Plugins can register non-static class `proto native` definitions
 - [ ] Framework for easily handling custom registered `class` definitions
 - [ ] Add `-nobe` launch parameter to disable battleye
 - [ ] Add `-globalwrite` launch paramter to enable write to all file paths
 - [ ] Plugins can enable write to custom path keys post-creation
 - [ ] .NET plugins
+- [ ] Plugins can construct custom `class` definitions natively
 
 And more will be added!
 
