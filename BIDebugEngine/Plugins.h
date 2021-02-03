@@ -28,6 +28,7 @@ namespace Infinity {
 	namespace Utils {
 		_CLINKAGE void* FindPattern(const char* binary_ninja_pattern);
 		_CLINKAGE void* FindPattern(const char* pattern, const char* mask);
+		_CLINKAGE HRESULT HookFunction(void* pAddress, void* pHookFunction, void** pOriginal);
 	}
 	//enfusion specific functionality
 	namespace Enfusion {
@@ -35,13 +36,17 @@ namespace Infinity {
 		_CLINKAGE bool GetProfilePath(char* pResult);
 		_CLINKAGE void PrintToConsole(const char* format, ...);
 		_CLINKAGE bool RegisterKeyPath(const char* directory, const char* key, bool allow_write = true);
-
+		_CLINKAGE void* MemAlloc(SIZE_T size);
 		namespace Enscript {
 			//Infinity::Enfusion::Enscript::RunFunction(obj, "func", NULL);
 			_CLINKAGE bool RunFunction(void* object, const char* function, long long arg4);
 			_CLINKAGE void* RegisterObject(const char* name);
 			_CLINKAGE void RegisterFunctionForObject(void* pObject, const char* name, void* function, bool use_special_stack);
 			_CLINKAGE void RegisterFunction(const char* name, void* function);
+			_CLINKAGE bool IsArgumentNull(void** pArgument);
+			_CLINKAGE void SetStringArgumentValue(char* newValue, void* pArgumentInfo, char** pArgument, bool unk_bool = 0);
+			_CLINKAGE void SetStringArgumentValue(void* pFunctionContext, int argIndex, char* newValue, bool unk_bool = 0);
+			_CLINKAGE void* GetArgumentInfo(void* pFunctionContext, int index);
 		}
 	}
 }

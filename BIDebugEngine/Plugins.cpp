@@ -5,6 +5,8 @@
 #include <fstream>
 #include <iostream>
 #include <filesystem>
+#include <stdint.h>
+#include <MinHook.h>
 
 #include "types.h"
 #include "Scripts.h"
@@ -45,7 +47,8 @@ void Infinity::PluginSystem::LoadPlugins(void* pThis)
 			if (hLib)
 			{
 				ONPLUGINLOAD OnPluginLoad = (ONPLUGINLOAD)GetProcAddress(hLib, "?OnPluginLoad@@YAXXZ");
-				OnPluginLoad();
+				if(OnPluginLoad)
+					OnPluginLoad();
 			}
 
 		}
@@ -54,15 +57,40 @@ void Infinity::PluginSystem::LoadPlugins(void* pThis)
 
 bool Infinity::Enfusion::GetProfilePath(char* pResult)
 {
+	if (!pResult)
+	{
+		printf("(E) [Plugin] GetProfilePath: Null value passed to pResult!\n");
+		return false;
+	}
 	printf("[Plugin] GetProfilePath: Looking for profile path from plugin\n");
 	return DayZ::Engine::GetProfilePath(pResult);
 }
+void* Infinity::Enfusion::MemAlloc(SIZE_T size)
+{
+	return DayZ::Engine::MemAlloc(size);
+}
 bool Infinity::Enfusion::RegisterKeyPath(const char* directory, const char* key, bool allow_write)
 {
+	if (!directory)
+	{
+		printf("(E) [Plugin] RegisterKeyPath: Null pointer for directory!\n");
+		return false;
+	}
+	if (!key)
+	{
+		printf("(E) [Plugin] RegisterKeyPath: Null pointer for key!\n");
+		return false;
+	}
 
 	if (fs::exists(directory))
 	{
 		void* pFileHandler = DayZ::Engine::GetFileHandler();
+		if (!pFileHandler)
+		{
+			printf("(E) [Plugin] RegisterKeyPath: Failed to get File Handler Pointer!\n");
+			return false;
+		}
+
 		printf("[Plugin] RegisterKeyPath: File Handler @ %p\n", pFileHandler);
 
 		DayZ::Engine::RegisterPathKey(pFileHandler, directory, key, allow_write);
@@ -76,8 +104,9 @@ void Infinity::Enfusion::PrintToConsole(const char* format, ...)
 	char buffer[1024];
 	va_list argptr;
 	va_start(argptr, format);
-	vsprintf(buffer, format, argptr);
+	vsprintf_s(buffer, 1024, format, argptr);
 	va_end(argptr);
+	
 
 	std::string plugin_format = "[Plugin] ";
 	plugin_format += buffer;
@@ -89,6 +118,13 @@ void* Infinity::Utils::FindPattern(const char* binary_ninja_pattern)
 {
 	printf("[Plugin] FindPattern: Looking for pattern in DayZ: %s\n", binary_ninja_pattern);
 	return Patterns::FindBinaryNinjaPattern(std::string(binary_ninja_pattern), GetModuleHandle(NULL), 0);
+}
+HRESULT Infinity::Utils::HookFunction(void* pAddress, void* pHookFunction, void** pOriginal)
+{
+	MH_STATUS status = (MH_STATUS)DayZ::Engine::ApplyHook(pAddress, pHookFunction, reinterpret_cast<LPVOID*>(pOriginal));
+	if (status == MH_OK)
+		return S_OK;
+	return E_FAIL;
 }
 void* Infinity::Utils::FindPattern(const char* pattern, const char* mask)
 {
@@ -115,6 +151,45 @@ void Infinity::Enfusion::Enscript::RegisterFunctionForObject(void* pObject, cons
 {
 	printf("[Plugin] RegisterFunction: Registering plugin function %s @ %p...\n", name, function);
 	DayZ::Scripts::Register(Infinity::PluginSystem::pScriptModule, pObject, name, function, use_special_stack);
+}
+bool Infinity::Enfusion::Enscript::IsArgumentNull(void** pArgument)
+{
+	printf("[Plugin] IsArgumentNull: Check if arg null @ %p...\n", pArgument);
+	return DayZ::Engine::IsArgumentNull(pArgument);
+}
+void Infinity::Enfusion::Enscript::SetStringArgumentValue(char* newValue, void* pArgumentInfo, char** pArgument, bool unk_bool)
+{
+	printf("[Plugin] SetStringArgumentValue: Setting argument @ %p to %s...\n", pArgument, newValue);
+	DayZ::Engine::SetStringArgumentValue(newValue, pArgumentInfo, pArgument, unk_bool);
+}
+void Infinity::Enfusion::Enscript::SetStringArgumentValue(void* pFunctionContext, int argIndex, char* newValue, bool unk_bool)
+{
+	if (!pFunctionContext)
+	{
+		printf("(E) [Plugin] SetStringArgumentValue: Null pointer for pFunctionContext!\n");
+		return;
+	}
+	void* argInfo = GetArgumentInfo(pFunctionContext, argIndex);
+	if (argInfo == 0)
+	{
+		printf("(E) [Plugin] SetStringArgumentValue: Null pointer for argument info!\n");
+		return;
+	}
+	//assume flags on argument are correct
+	//((*(argInfo + 0x10) & 0xffff0000) == 0x50000 && ((*(argInfo + 0x14) u>> 6) & 1) == 0)
+	//no need to check if this deref is valid, we'll assume caller didn't pass some wierd structure for function context
+	void** pArgument = *(*(void****)pFunctionContext + 0x8); 
+
+	if (!IsArgumentNull(pArgument))
+	{
+		SetStringArgumentValue(newValue, argInfo, (char**)pArgument, unk_bool);
+	}
+
+}
+void* Infinity::Enfusion::Enscript::GetArgumentInfo(void* pFunctionContext, int index)
+{
+	printf("[Plugin] SetStringArgumentValue: Getting argument info @ %p => %d...\n", pFunctionContext, index);
+	return DayZ::Engine::GetArgumentInfo(pFunctionContext, index);
 }
 
 void Infinity::Logging::Print(const char* format, ...)

@@ -1,19 +1,17 @@
-class DummyClass
-{
-	string inner_value = "value!";
-	void Callback()
-	{
-		WriteToConsole("CALLBACK SUCCESS!");
-	}
-}
+
 modded class MissionServer
 {
-	ref DummyClass dummy;
 	override void OnInit()
 	{
-		WriteToConsole("PLUGIN TEST!");
+		Print("RUNNING TEST PLUGIN!");
 		
-		
+		TestGlobalProtos();
+		TestClassProtos();
+		TestCallbacks();
+		TestFindPattern(GetGame().GetMission().MissionScript);
+		TestHookFunction();
+		TestSetValue();
+		TestArrayUsage();
 		super.OnInit();
 	}
 }
