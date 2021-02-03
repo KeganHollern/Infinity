@@ -11,6 +11,7 @@ modded class MissionServer
 		TestFindPattern(GetGame().GetMission().MissionScript);
 		TestHookFunction();
 		TestSetValue();
+		TestArrayUsage();
 		super.OnInit();
 	}
 }

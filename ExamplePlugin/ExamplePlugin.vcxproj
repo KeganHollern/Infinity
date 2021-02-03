@@ -97,6 +97,7 @@
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ArrayUsagePlugin.cpp" />
     <ClCompile Include="CallbacksPlugin.cpp" />
     <ClCompile Include="ClassProtosPlugin.cpp" />
     <ClCompile Include="dllmain.cpp" />

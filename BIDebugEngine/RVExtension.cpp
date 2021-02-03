@@ -46,7 +46,7 @@ char* RVExt::callExt_RVArgs(char* library, char* function, const char*** args, i
 	// sanity check arguments
 	if (!args)
 		return (char*)"No argument array provided";
-	const char*** internal_structure = args + 0x5; //28 bytes off of base ptr ???
+	const char*** internal_structure = args + 0x5; //28 bytes off of base ptr ??? (0x5 * 0x8 = 0x28)
 	if (IsBadReadPtr(internal_structure, sizeof(void*)))
 		return (char*)"Invalid arguments array provided!";
 

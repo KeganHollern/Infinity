@@ -11,9 +11,15 @@ typedef uint64_t(__fastcall* script_FileExist)(int64_t* FunctionCtx, int64_t* pR
 
 script_FileExist dayzFileExist;
 
+bool flip_me = false;
 uint64_t script_FileExist_hooked(int64_t* FunctionCtx, int64_t* pResult)
 {
-	Infinity::Logging::Print("Call to FileExist!");
+	
+	if(!flip_me)
+	{
+		Infinity::Logging::Print("Call to FileExist!"); 
+		flip_me = true;
+	}
 	if (!dayzFileExist)
 	{
 		Infinity::Logging::Error("Failed to call base FileExist function. NULL!");
@@ -34,6 +40,7 @@ void HookFunctionPluginInit()
 		if (hr == S_OK)
 		{
 			Infinity::Logging::Print("Hooked FileExist");
+				
 		}
 		else
 			Infinity::Logging::Error("Failed to hook FileExist");

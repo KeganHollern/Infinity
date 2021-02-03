@@ -31,6 +31,9 @@
     <Filter Include="Source Files\SetValue">
       <UniqueIdentifier>{3606eb9a-b970-4a42-96ea-6053bbb79c96}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Arrays">
+      <UniqueIdentifier>{78109a04-24a9-4f2f-8d3a-4759bcdfc1b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -70,6 +73,9 @@
     </ClCompile>
     <ClCompile Include="PluginMain.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ArrayUsagePlugin.cpp">
+      <Filter>Source Files\Arrays</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -18,7 +18,7 @@ void __declspec(dllexport) OnPluginLoad()
 	CallbacksPluginInit();
 	HookFunctionPluginInit();
 	SetValuePluginInit();
-
+	ArrayUsagePluginInit();
 
 	Infinity::Logging::Print("[ExamplePlugin] All Plugins Loaded!");
 

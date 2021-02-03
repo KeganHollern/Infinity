@@ -6,3 +6,4 @@ void CallbacksPluginInit();
 void FindPatternPluginInit();
 void HookFunctionPluginInit();
 void SetValuePluginInit();
+void ArrayUsagePluginInit();
