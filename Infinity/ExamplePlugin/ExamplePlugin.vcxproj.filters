@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Infinity">
+      <UniqueIdentifier>{ee2f272b-3f1e-46cd-a573-eab82af0a7c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Infinity\Examples">
+      <UniqueIdentifier>{6fc1b736-e938-452e-80f8-36e9c6c88d5d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PluginMain.cpp">
+      <Filter>Infinity</Filter>
+    </ClCompile>
+    <ClCompile Include="ArrayUsagePlugin.cpp">
+      <Filter>Infinity\Examples</Filter>
+    </ClCompile>
+    <ClCompile Include="CallbacksPlugin.cpp">
+      <Filter>Infinity\Examples</Filter>
+    </ClCompile>
+    <ClCompile Include="ClassProtosPlugin.cpp">
+      <Filter>Infinity\Examples</Filter>
+    </ClCompile>
+    <ClCompile Include="FindPatternPlugin.cpp">
+      <Filter>Infinity\Examples</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalProtosPlugin.cpp">
+      <Filter>Infinity\Examples</Filter>
+    </ClCompile>
+    <ClCompile Include="HookFunctionPlugin.cpp">
+      <Filter>Infinity\Examples</Filter>
+    </ClCompile>
+    <ClCompile Include="SetValuePlugin.cpp">
+      <Filter>Infinity\Examples</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ExamplePlugin.h">
+      <Filter>Infinity\Examples</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

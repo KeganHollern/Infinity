@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Enfusion">
+      <UniqueIdentifier>{9567a705-fca7-441c-aedc-08d7b6d03f6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enfusion\Utils">
+      <UniqueIdentifier>{7ba5851b-836d-4141-a4d6-d9497cc224f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enfusion\Plugins">
+      <UniqueIdentifier>{4029c300-344b-46b5-8284-5dedf74f37e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enfusion\Engine">
+      <UniqueIdentifier>{4bba232d-4da7-40fa-b1b0-548fd8492d30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enfusion\Engine\Reforger">
+      <UniqueIdentifier>{b79a451b-e399-4c70-beda-7354959ebd75}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="infinity.cpp">
+      <Filter>Enfusion</Filter>
+    </ClCompile>
+    <ClCompile Include="patterns.cpp">
+      <Filter>Enfusion\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="plugins.cpp">
+      <Filter>Enfusion\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="dayz.cpp">
+      <Filter>Enfusion\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="engine.cpp">
+      <Filter>Enfusion\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="reforger.cpp">
+      <Filter>Enfusion\Engine\Reforger</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="secur32\secur32.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="infinity.h">
+      <Filter>Enfusion</Filter>
+    </ClInclude>
+    <ClInclude Include="console.hpp">
+      <Filter>Enfusion\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="patterns.h">
+      <Filter>Enfusion\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="plugins.h">
+      <Filter>Enfusion\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="engine.h">
+      <Filter>Enfusion\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="dayz.h">
+      <Filter>Enfusion\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="reforger.h">
+      <Filter>Enfusion\Engine\Reforger</Filter>
+    </ClInclude>
+    <ClInclude Include="reforgertypes.h">
+      <Filter>Enfusion\Engine\Reforger</Filter>
+    </ClInclude>
+    <ClInclude Include="plugintypes.h">
+      <Filter>Enfusion\Plugins</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

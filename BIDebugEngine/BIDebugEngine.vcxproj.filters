@@ -16,14 +16,8 @@
     <Filter Include="Header Files\Utils">
       <UniqueIdentifier>{9840320a-5f9c-482f-a636-20795beaa8c2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\DayZ">
-      <UniqueIdentifier>{54b58764-2756-48a8-99d9-b70342fee076}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Utils">
       <UniqueIdentifier>{a5d83527-3624-4e41-b05f-9c065cd26d26}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\DayZ">
-      <UniqueIdentifier>{d2a2a0cd-52e4-4c1b-bb2f-c759a3651f32}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\RVExt">
       <UniqueIdentifier>{d22f4df5-3502-4315-bfd6-6dea14a9d51b}</UniqueIdentifier>
@@ -37,6 +31,24 @@
     <Filter Include="Source Files\Plugins">
       <UniqueIdentifier>{393ed6b2-4b50-444c-941e-0dfc88dae429}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Enfusion">
+      <UniqueIdentifier>{7fe59cd0-8618-441c-8d01-06d229d68782}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Enfusion\DayZ">
+      <UniqueIdentifier>{d2a2a0cd-52e4-4c1b-bb2f-c759a3651f32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Enfusion\Reforger">
+      <UniqueIdentifier>{4e971266-e82f-42d1-918b-7499ff1f05df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Enfusion">
+      <UniqueIdentifier>{e8be58d9-dc80-42db-a46e-eda80d757f81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Enfusion\DayZ">
+      <UniqueIdentifier>{54b58764-2756-48a8-99d9-b70342fee076}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Enfusion\Reforger">
+      <UniqueIdentifier>{8169afdc-95a3-4ddb-9661-8b9141709f60}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -49,10 +61,10 @@
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
     <ClInclude Include="types.h">
-      <Filter>Header Files\DayZ</Filter>
+      <Filter>Header Files\Enfusion\DayZ</Filter>
     </ClInclude>
     <ClInclude Include="Scripts.h">
-      <Filter>Header Files\DayZ</Filter>
+      <Filter>Header Files\Enfusion\DayZ</Filter>
     </ClInclude>
     <ClInclude Include="Console.h">
       <Filter>Header Files\Utils</Filter>
@@ -67,10 +79,10 @@
       <Filter>Header Files\Plugins</Filter>
     </ClInclude>
     <ClInclude Include="DayZUtils.h">
-      <Filter>Header Files\DayZ</Filter>
+      <Filter>Header Files\Enfusion\DayZ</Filter>
     </ClInclude>
     <ClInclude Include="Engine.h">
-      <Filter>Header Files\DayZ</Filter>
+      <Filter>Header Files\Enfusion\DayZ</Filter>
     </ClInclude>
     <ClInclude Include="PluginTypes.h">
       <Filter>Header Files\Plugins</Filter>
@@ -87,7 +99,7 @@
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
     <ClCompile Include="Scripts.cpp">
-      <Filter>Source Files\DayZ</Filter>
+      <Filter>Source Files\Enfusion\DayZ</Filter>
     </ClCompile>
     <ClCompile Include="Console.cpp">
       <Filter>Source Files\Utils</Filter>
@@ -102,10 +114,10 @@
       <Filter>Source Files\Plugins</Filter>
     </ClCompile>
     <ClCompile Include="DayZUtils.cpp">
-      <Filter>Source Files\DayZ</Filter>
+      <Filter>Source Files\Enfusion\DayZ</Filter>
     </ClCompile>
     <ClCompile Include="Engine.cpp">
-      <Filter>Source Files\DayZ</Filter>
+      <Filter>Source Files\Enfusion\DayZ</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
