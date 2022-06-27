@@ -3,6 +3,7 @@
 #include <string>
 
 #include "Patterns.h"
+#include "Console.hpp"
 
 #include "ScriptEngine.h"
 
@@ -19,7 +20,7 @@ const char** g_pStringModuleGame = NULL;
 
 bool InitScriptEngine()
 {
-	printf("init script engine.\n");
+	Debugln("Init script engine.");
 	// find this static address by it's usage during ModuleGame registration
 	void* address = FindPattern(PATTERN_SCRIPT_TABLE_HEAD, GetModuleHandle(NULL), 3);
 	uint32_t rel = *(uint32_t*)address;
@@ -30,7 +31,7 @@ bool InitScriptEngine()
 	fRegisterClass = (Enscript__RegisterClass)FindPattern(PATTERN_REGISTER_CLASS, GetModuleHandle(NULL), 0);
 	fRegisterClassStaticFunction = (Enscript__RegisterClassStaticFunction)FindPattern(PATTERN_REGISTER_CLASS_FUNCTION, GetModuleHandle(NULL), 0);
 
-	printf("done. %p, %p, %p.\n", g_pGlobalRegistrator, fRegisterClass, fRegisterClassStaticFunction);
+	Debugln("Done. %p, %p, %p.", g_pGlobalRegistrator, fRegisterClass, fRegisterClassStaticFunction);
 
 	return true;
 }

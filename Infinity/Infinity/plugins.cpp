@@ -1,7 +1,6 @@
 
 #include <Windows.h>
 #include <stdio.h>
-#include <MinHook.h>
 #include <filesystem>
 
 #include "console.hpp"
@@ -13,7 +12,6 @@
 namespace fs = std::filesystem;
 
 
-void* g_pScriptContext;
 
 
 #pragma region Logging
@@ -61,54 +59,14 @@ void* Infinity::Utils::FindPattern(const char* binary_ninja_pattern)
 	Debugln("Finding pattern '%s' in enfusion.", binary_ninja_pattern); // uses INFINITY: prefix
 	return Infinity::FindPattern(binary_ninja_pattern, GetModuleHandle(NULL), 0);
 }
-HRESULT Infinity::Utils::HookFunction(void* pAddress, void* pHookFunction, void** pOriginal) {
-	MH_STATUS status = (MH_STATUS)g_pEngine->ApplyHook(pAddress, pHookFunction, pOriginal);
-	if (status == MH_OK)
-		return S_OK;
-	return E_FAIL;
-}
 #pragma endregion
 
-#pragma region Enfusion
-const char* Infinity::Enfusion::GetGame()
-{
-	return g_pEngine->Game();
-}
-/*
-bool Infinity::Enfusion::RegisterKeyPath(const char* directory, const char* key, bool allow_write = true)
-{
-	return false;
-}
-void* Infinity::Enfusion::MemAlloc(SIZE_T size)
-{
-	return nullptr;
-}
-*/
-#pragma endregion
 
-#pragma region Enscript
-void* Infinity::Enfusion::Enscript::RegisterFunction(const char* name, void* function)
-{
-	void* result = g_pEngine->RegisterGlobal(g_pScriptContext, name, function);
-	Debugln("Registered '%s'. Result: '%p'.", name, result);
-	if (!result)
-	{
-		Warnln("Failed to register '%s'. Enscript not defined?", name);
-	}
-	return result;
-}
-
-bool Infinity::Enfusion::Enscript::RunFunction(void* object, const char* function, long long arg4)
-{
-	return g_pEngine->RunFunction(object, function, arg4);
-}
-#pragma endregion
 
 #pragma region Plugins
 
 void Infinity::LoadPlugins(void* pScriptContext)
 {
-	g_pScriptContext = pScriptContext;
 
 	Println("Loading infinity plugins.");
 

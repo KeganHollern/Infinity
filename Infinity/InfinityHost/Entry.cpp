@@ -6,60 +6,17 @@
 
 #include "ScriptRegistrator.h"
 #include "ScriptEngine.h"
+#include "InfinityPlugin.h"
+#include "Console.hpp"
 
 #include "Entry.h"
 
-
-Infinity globalobj; // hold infinity in memory indefinitely
+GInfinity globalobj; // hold infinity in memory indefinitely
 const std::string sModuleName = "ModuleGame";
-
-void start(Infinity* g_pInfinity);
-
-Infinity::Infinity() : startup(start, this) {}
-Infinity::~Infinity()
-{
-	startup.join();
-}
-
-void Infinity::Init()
-{
-	// find all of our offsets
-	if (!InitScriptEngine())
-	{
-		printf("failed to init script engine\n");
-		return;
-	}
-	if (!g_pGlobalRegistrator)
-	{
-		printf("global script registrator address null?\n");
-		return;
-	}
-
-	printf("infinity initialized\n");
-}
-void Infinity::LoadPlugins()
-{
-	printf("constructing new registrator\n");
-	BaseScriptRegistrator* g_GlobalClass = new BaseScriptRegistrator("InfinityTest");
-	printf("registering %p\n", g_GlobalClass);
-	ScriptRegistrator* last = (*g_pGlobalRegistrator)->GetLast();
-	printf("last element %p\n", last);
-	last->Insert(g_GlobalClass);
-
-	if (!(*g_pGlobalRegistrator)->HasChild(g_GlobalClass))
-	{
-		printf("??? not found in registration table!?");
-	}
-	else
-	{
-		printf("registered!\n");
-	}
-}
-
 
 // this is the main entrypoint for our library.
 // it runs on it's own thread
-void start(Infinity* g_pInfinity)
+void start(GInfinity* g_pInfinity)
 {
 	// if no console, create one
 	if (!GetConsoleWindow())
@@ -83,9 +40,9 @@ void start(Infinity* g_pInfinity)
 		}
 	}
 
-	printf("Infinity startup");
+	Println("Initializing infinity.");
 
-	g_pInfinity->Init();
+	g_pInfinity->Init(); // finds patterns
 
 	// wait until the global registrator head is inserted & anything with ModuleGame exists
 	auto start = std::chrono::steady_clock::now();
@@ -105,7 +62,7 @@ void start(Infinity* g_pInfinity)
 			if (std::string(name) == sModuleName)
 			{
 				g_pStringModuleGame = &name; // save the pointer to `ModuleGame` so we can use it to construct our own registrators
-				printf("game modules found.\n");
+				Debugln("Game modules found.");
 				found = true;
 				break;
 			}
@@ -119,7 +76,7 @@ void start(Infinity* g_pInfinity)
 			auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(end - start).count();
 			if (elapsed >= 5)
 			{
-				printf("registration timeout. Library out of date?\n");
+				Errorln("Registration timeout. Library out of date?");
 				return; 
 			}
 		}
@@ -128,4 +85,33 @@ void start(Infinity* g_pInfinity)
 
 	// game modules are loading, time to load our stuff
 	g_pInfinity->LoadPlugins();
+}
+
+// --------------------------------------------------------------------------
+
+GInfinity::GInfinity() : startup(start, this) {}
+GInfinity::~GInfinity()
+{
+	startup.join();
+}
+void GInfinity::Init()
+{
+	// find all of our offsets
+	if (!InitScriptEngine())
+	{
+		Errorln("Failed to init script engine.");
+		return;
+	}
+	if (!g_pGlobalRegistrator)
+	{
+		Errorln("Global script registrator address null?.");
+		return;
+	}
+
+	Debugln("GInfinity init complete.");
+}
+void GInfinity::LoadPlugins()
+{
+	// load all plugin libraries and call "OnPluginLoad"
+	Infinity::LoadPlugins();
 }

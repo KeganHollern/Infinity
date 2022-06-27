@@ -18,6 +18,9 @@
     <Filter Include="Infinity">
       <UniqueIdentifier>{59ab5f7f-cf96-4d24-be88-37c7431d64de}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Plugins">
+      <UniqueIdentifier>{b58d0011-c7d9-4ffc-8d85-4c380c94ff9f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -35,6 +38,9 @@
     <ClCompile Include="Entry.cpp">
       <Filter>Infinity</Filter>
     </ClCompile>
+    <ClCompile Include="InfinityPlugin.cpp">
+      <Filter>Plugins</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ScriptRegistrator.h">
@@ -47,6 +53,12 @@
       <Filter>Memory</Filter>
     </ClInclude>
     <ClInclude Include="Entry.h">
+      <Filter>Infinity</Filter>
+    </ClInclude>
+    <ClInclude Include="InfinityPlugin.h">
+      <Filter>Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="Console.hpp">
       <Filter>Infinity</Filter>
     </ClInclude>
   </ItemGroup>

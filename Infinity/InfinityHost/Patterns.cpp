@@ -3,6 +3,7 @@
 #include <Psapi.h>
 #include <sstream>
 
+#include "Console.hpp"
 
 #include "Patterns.h"
 
@@ -56,13 +57,12 @@ void* findPatternMask(const char* pattern, const char* mask, HMODULE module, int
 	MODULEINFO info;
 	if (!GetModuleInformation(GetCurrentProcess(), module, &info, sizeof(MODULEINFO)))
 	{
-		printf("(E) FindPatternMask: Failed to get module information\n");
+		Errorln("Failed to get module information during pattern scan.");
 		return NULL;
 	}
 
 	void* base = info.lpBaseOfDll;
 	DWORD size = info.SizeOfImage;
-	//printf("Search:\n\tStart: %p\n\tStop: %p\n", base, (void*)(((uint64_t)base) + size));
 	//probably better hueristics to improve this performance but meh
 	for (uint64_t i = 0; i < size; i++)
 	{

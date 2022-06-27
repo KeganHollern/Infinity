@@ -1,7 +1,8 @@
 #pragma once
 
-#include <string>
+#include "InfinityPlugin.h"
 
+#include <string>
 
 class ScriptRegistrator {
 public:
@@ -10,14 +11,14 @@ public:
 	// virtual table
 
 	virtual ~ScriptRegistrator();// 0
-	virtual __int64 unk0() { printf("unk0");  return false; } // 1
-	virtual __int64 Register(__int64 a2) { printf("register"); return true; } // 2
-	virtual __int64 unk1() { printf("unk1"); return true; } // 3 (must be true)
-	virtual __int64 unk2() { printf("unk2"); return false; }
-	virtual __int64 unk3() { printf("unk3"); return true; }
-	virtual __int64 unk4() { printf("unk4"); return false; }
-	virtual __int64 unk5() { printf("unk5"); return false; }
-	virtual __int64 unk6() { printf("unk6"); return false; }
+	virtual __int64 unk0() { return false; } // 1
+	virtual __int64 Register(__int64 a2) { return true; } // 2
+	virtual __int64 unk1() { return true; } // 3 (must be true)
+	virtual __int64 unk2() { return false; }
+	virtual __int64 unk3() { return true; }
+	virtual __int64 unk4() { return false; }
+	virtual __int64 unk5() { return false; }
+	virtual __int64 unk6() { return false; }
 
 	ScriptRegistrator* GetLast();
 	void Insert(ScriptRegistrator* registrator);
@@ -32,10 +33,10 @@ protected:
 
 class BaseScriptRegistrator : public ScriptRegistrator {
 public:
-	BaseScriptRegistrator(std::string name);
+	BaseScriptRegistrator(Infinity::BaseScriptClass* pParentClass);
 	virtual ~BaseScriptRegistrator() override;
 
 	__int64 Register(__int64 a2) override;
 protected:
-	std::string className;
+	Infinity::BaseScriptClass* parentClass;
 };

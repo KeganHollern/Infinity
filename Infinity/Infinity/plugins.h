@@ -2,7 +2,7 @@
 #include <Windows.h>
 
 
-#ifdef INFINITY_EXPORTS
+#ifdef INFINITYHOST_EXPORTS
 #define _CLINKAGE __declspec(dllexport)
 typedef void(__fastcall* ONPLUGINLOAD)();
 #else
@@ -10,7 +10,7 @@ typedef void(__fastcall* ONPLUGINLOAD)();
 #endif
 
 namespace Infinity {
-#ifdef INFINITY_EXPORTS
+#ifdef INFINITYHOST_EXPORTS
 	void LoadPlugins(void* pScriptContext);
 #endif
 
@@ -23,7 +23,6 @@ namespace Infinity {
 	}
 	namespace Utils {
 		_CLINKAGE void* FindPattern(const char* binary_ninja_pattern);
-		_CLINKAGE HRESULT HookFunction(void* pAddress, void* pHookFunction, void** pOriginal);
 	}
 	namespace Enfusion {
 		_CLINKAGE const char* GetGame(); // get game name

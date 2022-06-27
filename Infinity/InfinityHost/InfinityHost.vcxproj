@@ -158,12 +158,15 @@
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="Entry.cpp" />
+    <ClCompile Include="InfinityPlugin.cpp" />
     <ClCompile Include="Patterns.cpp" />
     <ClCompile Include="ScriptEngine.cpp" />
     <ClCompile Include="ScriptRegistrator.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Console.hpp" />
     <ClInclude Include="Entry.h" />
+    <ClInclude Include="InfinityPlugin.h" />
     <ClInclude Include="Patterns.h" />
     <ClInclude Include="ScriptEngine.h" />
     <ClInclude Include="ScriptRegistrator.h" />

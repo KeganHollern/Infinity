@@ -1,10 +1,10 @@
 #pragma once
 
 
-class Infinity {
+class GInfinity {
 public:
-	Infinity();
-	~Infinity();
+	GInfinity();
+	~GInfinity();
 
 	void Init();
 	void LoadPlugins();
