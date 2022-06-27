@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Enfusion">
+      <UniqueIdentifier>{acfe4bde-fd6b-4a4d-b232-25d8df1aa7c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Memory">
+      <UniqueIdentifier>{73643b49-213a-40e5-88be-169fa2692bf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Infinity">
+      <UniqueIdentifier>{59ab5f7f-cf96-4d24-be88-37c7431d64de}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptRegistrator.cpp">
+      <Filter>Enfusion</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptEngine.cpp">
+      <Filter>Enfusion</Filter>
+    </ClCompile>
+    <ClCompile Include="Patterns.cpp">
+      <Filter>Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="Entry.cpp">
+      <Filter>Infinity</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ScriptRegistrator.h">
+      <Filter>Enfusion</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptEngine.h">
+      <Filter>Enfusion</Filter>
+    </ClInclude>
+    <ClInclude Include="Patterns.h">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Entry.h">
+      <Filter>Infinity</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="secur32\secur32.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
+  </ItemGroup>
+</Project>

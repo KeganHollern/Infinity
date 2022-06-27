@@ -9,7 +9,7 @@
 
 #include "reforger.h"
 
-const std::string ENSCRIPT_REGISTER_FUNCTION_GLOBAL = "48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC 30 41 8B F9 48 8B D9";
+const std::string ENSCRIPT_REGISTER_FUNCTION_GLOBAL = "48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC ? 41 8B F9 48 8B D9";
 const std::string ENSCRIPT_INIT_FUNCTIONS = "48 89 5C 24 ? 48 89 6C 24 ? 48 89 74 24 ? 48 89 7C 24 ? 41 56 48 83 EC 30 4C 8B F2";
 
 uint64_t* Infinity::HK_Reforger_InitModules(void* pScriptContext, void* pUnknown) {
@@ -76,7 +76,7 @@ void* Infinity::Reforger::RegisterGlobal(void* pScriptContext, const char* name,
 		return nullptr;
 	}
 
-	return fRegisterGlobal(pScriptContext, name, function, 0);
+	return fRegisterGlobal(pScriptContext, name, function, 1);
 }
 
 bool Infinity::Reforger::RunFunction(void* object, const char* function, long long arg4)

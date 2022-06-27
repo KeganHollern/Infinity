@@ -46,7 +46,6 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <TargetName>Secur32</TargetName>
     <IncludePath>E:\Software Development\DayZ Projects\jokes\Infinity\Infinity\Infinity\libraries\include;$(IncludePath)</IncludePath>
     <LibraryPath>E:\Software Development\DayZ Projects\jokes\Infinity\Infinity\Infinity\libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
