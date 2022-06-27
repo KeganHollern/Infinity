@@ -61,6 +61,9 @@
     <ClInclude Include="Console.hpp">
       <Filter>Infinity</Filter>
     </ClInclude>
+    <ClInclude Include="EnfusionTypes.hpp">
+      <Filter>Enfusion</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <MASM Include="secur32\secur32.asm">

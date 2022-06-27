@@ -32,13 +32,20 @@ void Infinity::LoadPlugins()
 	{
 		if (p.path().extension() == ext)
 		{
-			Debugln("Found plugin '%s'.", p.path().stem().string().c_str());
+			const char* pluginName = p.path().stem().string().c_str();
+			Debugln("Found plugin '%s'.", pluginName);
 			HMODULE hLib = LoadLibraryW(p.path().c_str());
 			if (hLib)
 			{
 				ONPLUGINLOAD OnPluginLoad = (ONPLUGINLOAD)GetProcAddress(hLib, "?OnPluginLoad@@YAXXZ");
 				if (OnPluginLoad)
 					OnPluginLoad();
+				else
+					Warnln("Unable to find OnPluginLoad export in '%s'.", pluginName);
+			}
+			else
+			{
+				Warnln("Unable to load plugin '%s'.", pluginName);
 			}
 
 		}
