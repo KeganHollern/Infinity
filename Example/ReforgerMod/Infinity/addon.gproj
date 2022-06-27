@@ -1,0 +1,8 @@
+GameProject {
+ ID "Infinity"
+ GUID "59B41740AA6DD254"
+ TITLE "Infinity"
+ Dependencies {
+  "58D0FB3206B6F859"
+ }
+}
